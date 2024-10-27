@@ -1,23 +1,38 @@
-const serverless = require("serverless-http");
-const express = require("express");
-const app = express();
+'use strict';
 
-app.get("/", (req, res, next) => {
-  return res.status(200).json({
-    message: "Hello from root!",
+const { google } = require("googleapis");
+const calendar = google.calendar("v3");
+const SCOPES = ["https://www.googleapis.com/auth/calendar.events.public.readonly"];
+const { CLIENT_SECRET, CLIENT_ID, CALENDAR_ID } = process.env;
+const redirect_uris = [
+  "https://osarm.github.io/meet/"
+];
+
+const oAuth2Client = new google.auth.OAuth2(
+  CLIENT_ID,
+  CLIENT_SECRET,
+  redirect_uris[0]
+);
+
+module.exports.getAuthURL = async () => {
+  /**
+   *
+   * Scopes array is passed to the `scope` option. 
+   *
+   */
+  const authUrl = oAuth2Client.generateAuthUrl({
+    access_type: "offline",
+    scope: SCOPES,
   });
-});
 
-app.get("/hello", (req, res, next) => {
-  return res.status(200).json({
-    message: "Hello from path!",
-  });
-});
-
-app.use((req, res, next) => {
-  return res.status(404).json({
-    error: "Not Found",
-  });
-});
-
-exports.handler = serverless(app);
+  return {
+    statusCode: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Credentials': true,
+    },
+    body: JSON.stringify({
+      authUrl,
+    }),
+  };
+};
