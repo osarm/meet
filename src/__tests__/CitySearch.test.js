@@ -5,6 +5,7 @@ import { extractLocations, getEvents } from '../api';
 
 describe('<CitySearch /> component', () => {
   let CitySearchComponent;
+  
   beforeEach(() => {
     CitySearchComponent = render(<CitySearch />);
   });
@@ -13,7 +14,7 @@ describe('<CitySearch /> component', () => {
     expect(cityTextBox).toBeInTheDocument();
     expect(cityTextBox).toHaveClass('city');
   });
-
+  
   test('suggestions list is hidden by default', () => {
     const suggestionList = CitySearchComponent.queryByRole('list');
     expect(suggestionList).not.toBeInTheDocument();
@@ -27,7 +28,7 @@ describe('<CitySearch /> component', () => {
     expect(suggestionList).toBeInTheDocument();
     expect(suggestionList).toHaveClass('suggestions');
   });
-
+  
   test('updates list of suggestions correctly when user types in city textbox', async () => {
     const user = userEvent.setup();
     const allEvents = await getEvents();
@@ -50,7 +51,7 @@ describe('<CitySearch /> component', () => {
       expect(suggestionListItems[i].textContent).toBe(suggestions[i]);
     }
   });
-  
+
   test('renders the suggestion text in the textbox upon clicking on the suggestion', async () => {
     const user = userEvent.setup();
     const allEvents = await getEvents(); 
@@ -67,4 +68,5 @@ describe('<CitySearch /> component', () => {
 
     expect(cityTextBox).toHaveValue(BerlinGermanySuggestion.textContent);
   });
+
 });
