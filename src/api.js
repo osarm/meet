@@ -78,16 +78,15 @@ export const getAccessToken = async () => {
     await localStorage.removeItem("access_token");
     const searchParams = new URLSearchParams(window.location.search);
     const code = await searchParams.get("code");
-    if (!code) {
-      const response = await fetch(
-        "https://ztp73oz6hd.execute-api.us-east-1.amazonaws.com/dev/api/get-auth-url"
-      );
-      const result = await response.json();
-      const { authUrl } = result;
-      return (window.location.href = authUrl);
-    }
-    return code && getToken(code);
-  }
+      if (!code) {
+        const response = await fetch(
+          "https://ztp73oz6hd.execute-api.us-east-1.amazonaws.com/dev/api/get-auth-url"
+        );
+        const result = await response.json();
+        const { authUrl } = result;
+        return (window.location.href = authUrl);
+      }
+      return code && getToken(code);
+      }
   return accessToken;
-};
-
+}

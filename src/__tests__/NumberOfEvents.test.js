@@ -6,7 +6,8 @@ describe('<NumberOfEvents /> Component', () => {
     let NumberOfEventsComponent;
     beforeEach(() => {
         NumberOfEventsComponent = render(
-            <NumberOfEvents 
+            <NumberOfEvents
+                currentNOE={32} 
                 setCurrentNOE={() => {}}
                 setErrorAlert={() => {}}
             />
@@ -28,5 +29,5 @@ describe('<NumberOfEvents /> Component', () => {
         const user = userEvent.setup();
         await user.type(input, '{backspace}{backspace}10');
         expect(input).toHaveValue('10');
-    })
-})
+    });
+});
