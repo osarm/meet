@@ -26,19 +26,18 @@ const App = () => {
   
   return (
     <div className="App">
-      <CitySearch 
-        allLocations={allLocations} 
-        setCurrentCity={setCurrentCity} 
-      />
-      <EventList 
-        events={events} 
-      />
-      <NumberOfEvents 
-        setErrorAlert={setErrorAlert}
-        currentNOE={currentNOE}
-        setCurrentNOE={setCurrentNOE}
-      />
-    </div>
+    <CitySearch 
+      allLocations={allLocations} 
+      setCurrentCity={setCurrentCity} 
+    />
+    <NumberOfEvents 
+      setErrorAlert={setErrorAlert}
+      currentNOE={currentNOE}
+      setCurrentNOE={setCurrentNOE}
+    />
+    {errorAlert && <p style={{ color: 'red' }}>{errorAlert}</p>}
+    <EventList events={events} />
+  </div>
   );
 }
 

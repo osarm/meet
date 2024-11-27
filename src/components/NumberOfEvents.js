@@ -1,4 +1,5 @@
 import { useState } from "react";
+import PropTypes from 'prop-types';
 
 const NumberOfEvents = ({ currentNOE, setCurrentNOE, setErrorAlert }) => {
     const [number, setNumber] = useState(currentNOE);
@@ -20,15 +21,23 @@ const NumberOfEvents = ({ currentNOE, setCurrentNOE, setErrorAlert }) => {
         <div id="number-of-events">
             <label>
                 Number of Events:
-            <input 
-                type="text"
-                value={number}
-                onChange={handleInputChanged}
-                data-testid="numberOfEventsInput"
-            />
+                <input
+                    type="number"
+                    value={number}
+                    onChange={handleInputChanged}
+                     min="1"
+                     max="32"
+                    data-testid="numberOfEventsInput"
+                />
             </label>
         </div>
     )
+};
+
+NumberOfEvents.propTypes = {
+  currentNOE: PropTypes.number.isRequired,
+  setCurrentNOE: PropTypes.func.isRequired,
+  setErrorAlert: PropTypes.func.isRequired,
 };
 
 export default NumberOfEvents;

@@ -1,33 +1,38 @@
-import NumberOfEvents from '../components/NumberOfEvents';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import NumberOfEvents from '../components/NumberOfEvents';
 
 describe('<NumberOfEvents /> Component', () => {
-    let NumberOfEventsComponent;
+    let setCurrentNOE, setErrorAlert;
+
     beforeEach(() => {
-        NumberOfEventsComponent = render(
+        setCurrentNOE = jest.fn();
+        setErrorAlert = jest.fn();
+
+        render(
             <NumberOfEvents
-                currentNOE={32} 
-                setCurrentNOE={() => {}}
-                setErrorAlert={() => {}}
+                currentNOE={32}
+                setCurrentNOE={setCurrentNOE}
+                setErrorAlert={setErrorAlert}
             />
         );
     });
 
-    test('component contains input textbox', () => {
-        const input = NumberOfEventsComponent.queryByRole('textbox');
+    test('component contains input spinbutton', () => {
+        const input = screen.getByRole('spinbutton'); // Updated role to "spinbutton"
         expect(input).toBeInTheDocument();
     });
-    
-    test('ensures the default value of textbox is 32', () => {
-        const input = NumberOfEventsComponent.queryByRole('textbox');
-        expect(input).toHaveValue('32');
+
+    test('ensures the default value of spinbutton is 32', () => {
+        const input = screen.getByRole('spinbutton');
+        expect(input).toHaveValue(32); // `type="number"` returns numeric values
     });
 
-    test('textbox value changes when user updates input', async () => {
-        const input = NumberOfEventsComponent.getByTestId('numberOfEventsInput');
+    test('spinbutton value changes when user updates input', async () => {
+        const input = screen.getByRole('spinbutton');
         const user = userEvent.setup();
-        await user.type(input, '{backspace}{backspace}10');
-        expect(input).toHaveValue('10');
+        await user.clear(input); // Clear existing value before typing
+        await user.type(input, '10');
+        expect(input).toHaveValue(10); // Numeric values
     });
 });
